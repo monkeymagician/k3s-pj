@@ -46,7 +46,7 @@ window.editor = initEditor();
     const lang = document.getElementById("language-select").value;
 
 
-    const resource = lang === "python" ? "/run/python" : "/run/java";
+    const resource = lang === "python" ? "/run/python/" : "/run/java/";
     console.log("Backend URL:", resource);
 
     const payload = {
