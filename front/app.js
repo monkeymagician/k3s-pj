@@ -47,8 +47,7 @@ window.editor = initEditor();
 
 
     const resource = lang === "python" ? "/run/python" : "/run/java";
-    const backendUrl = window.location.host + resource;
-    console.log("Backend URL:", backendUrl);
+    console.log("Backend URL:", resource);
 
     const payload = {
     code,
