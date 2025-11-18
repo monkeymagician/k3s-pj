@@ -51,7 +51,7 @@ window.editor = initEditor();
 
     const payload = {
     code,
-    tests: TEST_CASES[currentProblem]
+    test_cases: TEST_CASES[currentProblem]
     };
     try {
       const res = await fetch(resource, {
