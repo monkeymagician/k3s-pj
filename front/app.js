@@ -54,7 +54,7 @@ window.editor = initEditor();
     tests: TEST_CASES[currentProblem]
     };
     try {
-      const res = await fetch(backendUrl, {
+      const res = await fetch(resource, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
