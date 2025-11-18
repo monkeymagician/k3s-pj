@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Problem 1 - PCM</title>
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ace.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Problem 1: PCM</h1>
+<p>다음과 같이 리턴하는 main 함수를 작성하세요</p>
+<p>input: "like", output: "I LIKE pcm"</p>
+<p>input: "love", output: "I LOVE pcm"</p>
+<p>input: "Love", output: "I LOVE pcm"</p>
+<p>input: "LOV3", output: "I LOV3 pcm"</p>
+
+
+<label>Select Language:</label>
+<select id="language-select">
+<option value="python">Python</option>
+<option value="java">Java</option>
+</select>
+
+
+<div id="editor" class="editor">def main(a): return ""</div>
+<button id="run-btn">Run Code</button>
+
+
+<pre id="result"></pre>
+</div>
+
+
+<script src="app.js"></script>
+<script>
+loadProblem(1);
+</script>
+</body>
+</html>

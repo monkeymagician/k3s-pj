@@ -1,59 +1,95 @@
-// Simple frontend logic separated into this file
-} catch (err) {
-appendLog('❌ Network or CORS error: ' + err.message);
-showError('Network error or CORS blocked. Check console.');
-}
-}
-
-
-function renderResults(results) {
-resultArea.innerHTML = '';
-const allPass = results.every(r => r.status === 'pass');
-
-
-const summary = document.createElement('div');
-summary.className = 'card ' + (allPass ? 'case-pass' : 'case-fail');
-summary.innerHTML = `<strong>${allPass ? 'All tests passed ✅' : 'Some tests failed ❌'}</strong>`;
-resultArea.appendChild(summary);
-
-
-results.forEach((r, idx) => {
-const div = document.createElement('div');
-div.className = r.status === 'pass' ? 'case-pass' : 'case-fail';
-const msg = `
-<div style="font-weight:600">Test #${idx + 1}: ${r.status.toUpperCase()}</div>
-<div><small>Output:</small> <pre>${safeStringify(r.output)}</pre></div>
-<div><small>Expected:</small> <pre>${safeStringify(r.expected)}</pre></div>
-${r.message ? `<pre style="color:#b91c1c">Error:\n${escapeHtml(r.message)}</pre>` : ''}
-`;
-div.innerHTML = msg;
-resultArea.appendChild(div);
-});
+// Hidden backend URLs
+function initEditor() {
+const editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.session.setMode("ace/mode/python");
+return editor;
 }
 
 
-function clearResult() {
-resultArea.innerHTML = '<div class="placeholder">Running... please wait</div>';
+// Problem-specific test cases
+const TEST_CASES = {
+1: [
+  {"function": "main", "input": ["like"], "expected": "I LIKE pcm"},
+  {"function": "main", "input": ["likee"], "expected": "I LIKEE pcm"},
+  {"function": "main", "input": ["Love"], "expected": "I LOVE pcm"},
+  {"function": "main", "input": ["Love2"], "expected": "I LOVE2 pcm"},
+  {"function": "main", "input": ["love"], "expected": "I LOVE pcm"}
+],
+2: [
+  {"function": "main", "input": [2, 3], "expected": 5},
+  {"function": "main", "input": [10, 5], "expected": 15},
+],
+3: [
+{ input: "'racecar'", expected: "true" },
+{ input: "'hello'", expected: "false" }
+]
+};
+
+
+let currentProblem = 1;
+
+
+function loadProblem(num) {
+currentProblem = num;
+window.editor = initEditor();
+
+
+  document.getElementById("language-select").addEventListener("change", function () {
+  const lang = this.value;
+  window.editor.session.setMode(`ace/mode/${lang}`);
+  });
+
+
+  document.getElementById("run-btn").addEventListener("click", async function () {
+    const code = window.editor.getValue();
+    const lang = document.getElementById("language-select").value;
+
+
+    const resource = lang === "python" ? "/run/python" : "/run/java";
+    const backendUrl = window.location.host + resource;
+    console.log("Backend URL:", backendUrl);
+
+    const payload = {
+    code,
+    tests: TEST_CASES[currentProblem]
+    };
+    try {
+      const res = await fetch(backendUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+      });
+
+
+      const result = await res.text();
+      const testResults = analyzeTestResults(JSON.parse(result));
+      const message = `전체 결과: ${testResults.overallStatus} (${testResults.ratio})`;
+
+      document.getElementById("result").textContent = message;
+    } catch (error) {
+      const message = `에러 발생: ${error.message}`;
+      console.error("Error during fetch:", error);
+      document.getElementById("result").textContent = message;
+    }
+  });
 }
 
+function analyzeTestResults(resultsList) {
+    const totalCount = resultsList.length;
+    let passCount = 0;
 
-function showError(msg) {
-resultArea.innerHTML = `<div class="card case-fail"><strong>Error</strong><div>${escapeHtml(msg)}</div></div>`;
-}
+    resultsList.forEach(result => {
+        if (result && result.status === 'pass') {
+            passCount++;
+        }
+    });
 
+    const ratioString = `${passCount}/${totalCount}`;
+    const overallStatus = passCount===totalCount ? "성공" : "실패";
 
-function appendLog(text) {
-const now = new Date().toLocaleTimeString();
-logArea.innerHTML = `[${now}] ${escapeHtml(text)}\n` + logArea.innerHTML;
-}
-
-
-function safeStringify(v) {
-try { return JSON.stringify(v, null, 2); } catch (e) { return String(v); }
-}
-
-
-function escapeHtml(s){
-if(!s) return '';
-return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return {
+        overallStatus: overallStatus,
+        ratio: ratioString
+    };
 }
