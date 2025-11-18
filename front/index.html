@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CodeJudge — Serverless Coding Test</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+<div class="brand">CodeJudge</div>
+<div class="actions">
+<input id="apiUrl" class="api-input" value="http://py-code-run.default.172.16.101.151.nip.io/run" />
+<button id="runBtn" class="btn primary">Run</button>
+</div>
+</header>
+
+
+<main class="layout">
+<aside class="sidebar">
+<div class="sidebar-section">
+<h3>Problems</h3>
+<ul id="problemList">
+<li class="active">1. Add Two Numbers</li>
+<li>2. Two Sum</li>
+<li>3. Reverse String</li>
+</ul>
+</div>
+<div class="sidebar-section">
+<h3>Language</h3>
+<select id="languageSelect">
+<option value="python">Python 3</option>
+</select>
+</div>
+</aside>
+
+
+<section class="editor-area">
+<div class="panel toolbar">
+<div class="meta">
+<h2 id="problemTitle">1. Add Two Numbers</h2>
+<p id="problemDesc">Implement a function <code>add(a, b)</code> that returns the sum of two numbers.</p>
+</div>
+</div>
+
+
+<div class="split">
+<div class="left">
+<div class="card">
+<label class="label">Code</label>
+<textarea id="codeInput" class="editor">def add(a, b):
+return a + b</textarea>
+</div>
+
+
+<div class="card small">
+</html>
