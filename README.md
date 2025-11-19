@@ -45,7 +45,8 @@ root@master:/k8s/knative/mf# curl -X POST http://py-code-run.default.172.16.101.
 
 ### Nginx 설정
 nginx.conf \
-필요시 proxy_pass 수정
+쿠버네티스 환경 외 배포시에는 proxy_pass 수정 필요
+쿠버네티스 환경에선 내부 dns 사용으로 수정 불필요
 ```
 ...
     # -----------------------------
