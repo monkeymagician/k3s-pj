@@ -64,5 +64,5 @@ nginx.conf \
     }
 ...
 ```
-
+수정 후 도커파일로 이미지 생성 -> pod 배포
 Nginx root path 접속 시 사이트 접근 가능
