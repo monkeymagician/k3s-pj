@@ -44,3 +44,25 @@ root@master:/k8s/knative/mf# curl -X POST http://py-code-run.default.172.16.101.
 ```
 
 ### Nginx 설정
+nginx.conf \
+필요시 proxy_pass 수정
+```
+...
+    # -----------------------------
+    # Python backend proxy
+    # -----------------------------
+    location /run/python/ {
+        proxy_pass http://py-code-run.default.172.16.101.151.nip.io/run;  # Kubernetes ClusterIP Service 이름, 뒤에 / 붙어있으면 라우팅 안됨 -> python 백엔드 수정 필요
+        proxy_http_version 1.1;
+        proxy_set_header Host py-code-run.default.172.16.101.151.nip.io;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_connect_timeout 10s;
+        proxy_read_timeout 120s;
+    }
+...
+```
+
+Nginx root path 접속 시 사이트 접근 가능
