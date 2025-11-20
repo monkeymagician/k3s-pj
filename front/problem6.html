@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Problem 5: Valid parentheses</title>
+<title>Problem 6 - GCD</title>
 <link rel="stylesheet" href="styles.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ace.js"></script>
 </head>
 <body>
 <div class="container">
-<h1>Problem 5: Valid parentheses</h1>
-<p>유효한 괄호 문자열일경우 1을 아니면 0을 리턴하는 main 함수를 작성하세요</p>
-<p>input: "([{}])", "expected": 1</p>
-<p>input: "({[)]}", "expected": 0</p>
+<h1>Problem 6: GCD</h1>
+<p>두 수의 최대공약수를 리턴하는 main 함수를 작성하세요</p>
+<p>input: [12, 8], "expected": 4</p>
+<p>input: [100, 75], "expected": 25</p>
+<p>input: [7, 3], "expected": 1</p>
 
 
 <label>Select Language:</label>
@@ -22,7 +23,7 @@
 </select>
 
 
-<div id="editor" class="editor">def main(a): return 0</div>
+<div id="editor" class="editor">def main(a, b): return 0</div>
 <button id="run-btn">Run Code</button>
 
 
@@ -32,7 +33,7 @@
 
 <script src="app.js"></script>
 <script>
-loadProblem(5);
+loadProblem(6);
 </script>
 </body>
 </html>
