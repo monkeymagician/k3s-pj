@@ -40,6 +40,13 @@ const TEST_CASES = {
       {"function": "main", "input": [[4,10,4,3,8,9]], "expected": 3},
       {"function": "main", "input": [[1,2,3,4,5]], "expected": 5}
     ],
+    5: [
+      {"function": "main", "input": ["()"], "expected": 1},
+      {"function": "main", "input": ["([{}])"], "expected": 1},
+      {"function": "main", "input": ["(]"], "expected": 0},
+      {"function": "main", "input": ["((()))"], "expected": 1},
+      {"function": "main", "input": ["({[)]}"], "expected": 0}
+    ],
 };
 
 
@@ -81,7 +88,7 @@ function loadProblem(num) {
 
             const result = await res.text();
             const testResults = analyzeTestResults(JSON.parse(result));
-            const message = `전체 결과: ${testResults.overallStatus} (테스트 케이스: ${testResults.ratio})`;
+            const message = `전체 결과: ${testResults.overallStatus} (테스트 케이스: ${testResults.ratio}) ${testResults.errorMessages.length > 0 ? '| 에러: ' + testResults.errorMessages[0] : ''}`;
 
             document.getElementById("result").textContent = message;
         } catch (error) {
@@ -98,10 +105,12 @@ function loadProblem(num) {
 function analyzeTestResults(resultsList) {
     const totalCount = resultsList.length;
     let passCount = 0;
-
+    let errorMessages = [];
     resultsList.forEach(result => {
         if (result && result.status === 'pass') {
             passCount++;
+        } else if (result && result.status === 'error') {
+            errorMessages.push(result.message);
         }
     });
 
@@ -110,6 +119,7 @@ function analyzeTestResults(resultsList) {
 
     return {
         overallStatus: overallStatus,
-        ratio: ratioString
+        ratio: ratioString,
+        errorMessages: errorMessages
     };
 }
