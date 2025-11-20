@@ -30,9 +30,16 @@ const TEST_CASES = {
       {"function": "main", "input": [10, 5], "expected": 15},
     ],
     3: [
-      { input: "'racecar'", expected: "true" },
-      { input: "'hello'", expected: "false" }
-    ]
+      { "function": "main", "input": ["racecar"], "expected": 1 },
+      { "function": "main", "input": ["hello"], "expected": 0 }
+    ],
+    4: [
+      {"function": "main", "input": [[10,9,2,5,3,7,101,18]], "expected": 4},
+      {"function": "main", "input": [[0,1,0,3,2,3]], "expected": 4},
+      {"function": "main", "input": [[7,7,7,7]], "expected": 1},
+      {"function": "main", "input": [[4,10,4,3,8,9]], "expected": 3},
+      {"function": "main", "input": [[1,2,3,4,5]], "expected": 5}
+    ],
 };
 
 
@@ -74,7 +81,7 @@ function loadProblem(num) {
 
             const result = await res.text();
             const testResults = analyzeTestResults(JSON.parse(result));
-            const message = `전체 결과: ${testResults.overallStatus} 테스트 케이스: (${testResults.ratio})`;
+            const message = `전체 결과: ${testResults.overallStatus} (테스트 케이스: ${testResults.ratio})`;
 
             document.getElementById("result").textContent = message;
         } catch (error) {
