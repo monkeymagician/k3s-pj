@@ -48,11 +48,11 @@ const TEST_CASES = {
       {"function": "main", "input": ["({[)]}"], "expected": 0}
     ],
     6: [
-      {"function": "gcd", "input": [12, 8], "expected": 4},
-      {"function": "gcd", "input": [100, 80], "expected": 20},
-      {"function": "gcd", "input": [7, 3], "expected": 1},
-      {"function": "gcd", "input": [81, 27], "expected": 27},
-      {"function": "gcd", "input": [17, 13], "expected": 1}
+      {"function": "main", "input": [12, 8], "expected": 4},
+      {"function": "main", "input": [100, 80], "expected": 20},
+      {"function": "main", "input": [7, 3], "expected": 1},
+      {"function": "main", "input": [81, 27], "expected": 27},
+      {"function": "main", "input": [17, 13], "expected": 1}
     ],
   };
 
