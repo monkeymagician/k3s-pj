@@ -1,0 +1,37 @@
+body {
+font-family: Arial, sans-serif;
+background: #1e1e1e;
+color: #fff;
+margin: 0;
+padding: 0;
+}
+.container {
+max-width: 900px;
+margin: auto;
+padding: 20px;
+}
+h1 {
+text-align: center;
+margin-bottom: 20px;
+}
+.editor {
+height: 300px;
+border: 1px solid #444;
+margin-bottom: 10px;
+}
+button {
+padding: 10px 20px;
+background: #007acc;
+border: none;
+color: #fff;
+cursor: pointer;
+border-radius: 6px;
+}
+button:hover {
+background: #005fa3;
+}
+.problem-list a {
+color: #4fc3f7;
+text-decoration: none;
+font-size: 18px;
+}
