@@ -1,0 +1,12 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: py-code-run
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - image: cjs7433/pytest:3
+          ports:
+            - containerPort: 8080
