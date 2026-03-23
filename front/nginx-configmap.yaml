@@ -4,7 +4,7 @@ metadata:
   name: nginx-conf
   namespace: default
 data:
-  default.conf: | # 이하 nginx의 설정
+  default.conf: |
     server {
         listen 80;
         server_name _;
@@ -20,19 +20,21 @@ data:
         # Python backend proxy
         # -----------------------------
         location /run/python/ {
-            # [핵심 1] k8s의 기본 내부 DNS 서버 주소 명시 (나의 환경: 10.96.0.10)
-           # resolver 10.96.0.10 valid=5s;
-            # k3s의 기본DNS 주소
-             resolver 10.43.0.10 valid=5s;
+            # [선택] 일반적인 Kubernetes (Kubeadm, EKS 등) 기본 DNS 주소
+            # resolver 10.96.0.10 valid=5s;
+            
+            # [현재 활성] k3s의 기본 DNS 주소
+            resolver 10.43.0.10 valid=5s;
 
-            # [핵심 2] 주소를 변수로 선언 (이렇게 하면 Nginx가 시작할 때 에러표시 안함)
-            set $backend_url http://py-code-run.default.svc.cluster.local:8080/run;
+            # [핵심 수정] Knative 내부망 통신이므로 포트 번호(8080) 제거, 기본 HTTP(80) 사용
+            set $backend_url http://py-code-run.default.svc.cluster.local/run;
 
-            # 변수를 사용해서 호출 (Lazy Resolve)
+            # 변수를 사용해서 호출 (Lazy Resolve 적용하여 Nginx 기동 시 DNS 에러 방지)
             proxy_pass $backend_url;
             
             proxy_http_version 1.1;
-            # Host 헤더는 필수!
+            
+            # [핵심 유지] Host 헤더는 필수! (Istio가 이 헤더를 보고 라우팅 및 카나리 분배를 수행함)
             proxy_set_header Host py-code-run.default.svc.cluster.local;
             
             proxy_set_header X-Real-IP $remote_addr;
